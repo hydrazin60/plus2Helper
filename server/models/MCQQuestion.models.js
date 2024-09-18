@@ -11,6 +11,11 @@ const MCQQuestionSchema = new mongoose.Schema(
       enum: ["Science", "Management", "Arts"],
       required: true,
     },
+    Mark: {
+      type: Number,
+      enum: [1, 2],
+      default: 1,
+    },
     subject: {
       type: String,
       required: true,

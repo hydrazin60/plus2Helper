@@ -54,7 +54,7 @@ const userSchema = new mongoose.Schema(
     DalyCapsuleAttend: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "DalyExam",
+        ref: "DalyCapsule",
       },
     ],
   },
