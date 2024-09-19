@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-
 const DalyCapsuleSchema = new mongoose.Schema(
   {
     grage: {

@@ -5,11 +5,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    gender: {
-      type: String,
-      enum: ["Male", "Female", "Other"],
-      default: "Male",
-    },
     email: {
       type: String,
       required: true,
@@ -17,6 +12,11 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+    },
+    gender: {
+      type: String,
+      enum: ["Male", "Female", "Other"],
+      default: "Male",
     },
     grade: {
       type: String,
@@ -27,6 +27,13 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["Science", "Management", "Arts"],
       default: "Science",
+    },
+    verificationToken: {
+      type: String,
+    },
+    verified: {
+      type: Boolean,
+      default: false,
     },
     role: {
       type: String,
