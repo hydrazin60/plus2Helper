@@ -1,16 +1,13 @@
 import User from "../models/user.models.js";
 import bcrypt from "bcryptjs";
-import { log } from "console";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
-import { text } from "express";
 
 dotenv.config();
 export const Register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
-    log(username, email, password);
     if (!username || !email || !password) {
       return res.status(409).json({
         success: false,
@@ -73,7 +70,6 @@ const sendVerificationEmail = async (email, verificationToken) => {
       <p>Please click on the link below to verify your account</p>
       <a href="http://localhost:3000/verify/${verificationToken}">Verify Account</a>`,
     };*/
-
     await transpoter.sendMail(mailOptions);
     console.log(`Verification email sent sucessfully `);
   } catch (error) {
