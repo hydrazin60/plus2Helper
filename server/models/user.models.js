@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema(
         message: "Please provide a valid email address",
       },
     },
+
     mobileNumber: {
       type: String,
       validate: {
@@ -31,9 +32,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    password: {
+    profilePic: {
       type: String,
-      required: true,
+      default: null,
     },
     gender: {
       type: String,
@@ -57,6 +58,7 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+
     role: {
       type: String,
       enum: ["admin", "user", "teacher"],
