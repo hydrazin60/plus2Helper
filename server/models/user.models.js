@@ -7,10 +7,29 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: true,
+      validate: {
+        validator: function (value) {
+          // Only run validation if email is provided
+          return value
+            ? /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(value)
+            : true;
+        },
+        message: "Please provide a valid email address",
+      },
     },
     mobileNumber: {
       type: String,
+      validate: {
+        validator: function (value) {
+          // Only run validation if mobileNumber is provided
+          return value ? /^\d{10}$/.test(value) : true;
+        },
+        message: "Please provide a valid 10-digit mobile number",
+      },
+    },
+    password: {
+      type: String,
+      required: true,
     },
     password: {
       type: String,
@@ -55,7 +74,7 @@ const userSchema = new mongoose.Schema(
         ref: "LongQuestion",
       },
     ],
-    WeekExamAttend:[
+    WeekExamAttend: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "WeekExam",
@@ -72,6 +91,18 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+userSchema.path("email").validate(function (value) {
+  if (!this.email && !this.mobileNumber) {
+    throw new Error("At least one of email or mobile number must be provided.");
+  }
+}, null);
+
+userSchema.path("mobileNumber").validate(function (value) {
+  if (!this.email && !this.mobileNumber) {
+    throw new Error("At least one of email or mobile number must be provided.");
+  }
+}, null);
 
 const User = mongoose.model("User", userSchema);
 export default User;
