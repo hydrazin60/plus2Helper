@@ -52,7 +52,7 @@ const userSchema = new mongoose.Schema(
         ref: "LongQuestion",
       },
     ],
-    WeekExamAttend: [
+    WeekExamAttend:[
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "WeekExam",

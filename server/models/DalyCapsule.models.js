@@ -18,6 +18,14 @@ const DalyCapsuleSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
+    MarksObtained: {
+      type: Number,
+      required: true,
+    },
+    fullMark: {
+      type: Number,
+      required: true,
+    },
   },
   { timestamps: true }
 );
