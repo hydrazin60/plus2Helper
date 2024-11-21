@@ -1,13 +1,35 @@
 import UserModel from "../../models/User_models/user.models.js";
 import bcrypt from "bcrypt";
+import validator from "validator";
 
 export const register = async (req, res) => {
   try {
     const { fullName, email, password, mobileNumber } = req.body;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const mobileNumberRegex = /^\+?[0-9]{10}$/;
+
     if (!fullName || !email || !password) {
       return res.status(400).json({
         success: false,
         message: "All fields are required",
+        error: true,
+      });
+    }
+    if (!emailRegex.test(email) || !validator.isEmail(email)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid email format! Please enter a valid email.",
+        error: true,
+      });
+    }
+    if (
+      !mobileNumberRegex.test(mobileNumber) ||
+      !validator.isMobilePhone(mobileNumber)
+    ) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Invalid mobile number format! Please enter a valid mobile number.",
         error: true,
       });
     }
