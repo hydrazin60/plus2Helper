@@ -105,7 +105,6 @@ export const login = async (req, res) => {
         error: true,
       });
     }
-
     const isPasswordMatch = await bcrypt.compare(
       password,
       existingUser.password
