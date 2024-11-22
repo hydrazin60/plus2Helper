@@ -1,4 +1,4 @@
-import UserModel from "../../models/User_models/user.models.js";
+import UserModel from "../../../models/User_models/user.models.js";
 import bcrypt from "bcrypt";
 import validator from "validator";
 import jwt from "jsonwebtoken";
@@ -132,14 +132,14 @@ export const login = async (req, res) => {
     return res
       .cookie("token", Token, {
         httpOnly: true,
-        secure: true,
-        sameSite: "none",
-        maxAge: 24 * 60 * 60 * 1000,
+        secure: process.env.NODE_ENV === "production", // Secure only in production
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Adjust for development
+        maxAge: 24 * 60 * 60 * 1000, // 1 day
       })
       .status(200)
       .json({
         success: true,
-        message: `Welcome ${userdata.fullName} in our +2Helper education portal`,
+        message: `Welcome ${userdata.fullName} to our +2Helper education portal`,
         data: userdata,
       });
   } catch (error) {
