@@ -2,6 +2,10 @@ import UserModel from "../../../models/User_models/user.models.js";
 import bcrypt from "bcrypt";
 import validator from "validator";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
+import nodemailer from "nodemailer";
+import { log } from "console";
+import { sendVerificationEmail } from "../../../utils/sendVerificationemail.js";
 
 export const register = async (req, res) => {
   try {
@@ -60,11 +64,14 @@ export const register = async (req, res) => {
       mobileNumber,
     });
 
+    user.VerificationToken = crypto.randomBytes(20).toString("hex");
+    await user.save();
+    sendVerificationEmail(user.email, user.VerificationToken);
     const userData = user.toObject();
     delete userData.password;
     return res.status(201).json({
       success: true,
-      message: `${user.fullName} successfully registered! please go to Login page `,
+      message: `${user.fullName} successfully registered! please check your email to verify your account`,
       data: userData,
     });
   } catch (error) {
@@ -78,9 +85,30 @@ export const register = async (req, res) => {
   }
 };
 
+export const verifyUser = async (req, res) => {
+  const token = req.params.token;
+  const user = await UserModel.findOne({ VerificationToken: token });
+  if (!user) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid token",
+      error: true,
+    });
+  }
+  const userdata = user.toObject();
+  delete userdata.password;
+  user.isVerified = true;
+  user.VerificationToken = undefined;
+  await user.save();
+  return res.status(200).json({
+    success: true,
+    message: "User verified successfully",
+    data: userdata,
+  });
+};
+
 export const login = async (req, res) => {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -152,3 +180,5 @@ export const login = async (req, res) => {
     });
   }
 };
+
+ 

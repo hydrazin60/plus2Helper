@@ -64,7 +64,20 @@ const UserSchema = new mongoose.Schema(
         ref: "ShortQuestion",
       },
     ],
+    role: {
+      type: String,
+      enum: ["student", "teacher", "admin"],
+      default: "student",
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    VerificationToken: {
+      type: String,
+    },
   },
+
   {
     timestamps: true,
   }
