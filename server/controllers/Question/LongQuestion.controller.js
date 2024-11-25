@@ -83,3 +83,51 @@ export const LongQuestionDelete = async (req, res) => {
     });
   }
 };
+
+export const editLongQuestion = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { question, answer, marks, subject, topics, chapter, difficulty } =
+      req.body;
+    if (!id || id.length !== 24) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid credentials",
+        error: true,
+      });
+    }
+    const longQuestion = await LongQuestionModel.findById(id);
+    if (!longQuestion) {
+      return res.status(404).json({
+        success: false,
+        message: "Long Question not found",
+        error: true,
+      });
+    }
+
+    if (question !== undefined) longQuestion.question = question;
+    if (answer !== undefined) longQuestion.answer = answer;
+    if (marks !== undefined) longQuestion.marks = marks;
+    if (subject !== undefined) longQuestion.subject = subject;
+    if (topics !== undefined) longQuestion.topics = topics;
+    if (chapter !== undefined) longQuestion.chapter = chapter;
+    if (difficulty !== undefined) longQuestion.difficulty = difficulty;
+
+    await longQuestion.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Long Question updated successfully",
+      data: longQuestion,
+    });
+  } catch (error) {
+    console.log(
+      `Something went wrong while editing Long Question: ${error.message}`
+    );
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong. Please try again later.",
+      error: error.message,
+    });
+  }
+};
