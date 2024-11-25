@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import authRouter from "./routes/userauth.routes.js";
 import userActivityRouter from "./routes/userActivity.routes.js";
 import cookieParser from "cookie-parser";
+import Admin_QuestionUploaderRouter from "./routes/Admin/QuestionUploader.routes.js";
 
 dotenv.config();
 const app = express();
@@ -16,6 +17,7 @@ app.use(cookieParser());
 
 app.use("/api/v1/jbn/plus2helper/auth", authRouter);
 app.use("/api/v1/jbn/plus2helper/user_activity", userActivityRouter);
+app.use("/Admin/api/v1/jbn/plus2helper/uploadQuestion", Admin_QuestionUploaderRouter );
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

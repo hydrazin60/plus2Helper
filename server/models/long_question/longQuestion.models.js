@@ -4,35 +4,37 @@ const longQuestionSchema = new mongoose.Schema(
   {
     question: {
       type: String,
-      required: true, 
+      required: true,
     },
     answer: {
       type: String,
-      required: true, 
+      required: true,
     },
     marks: {
       type: Number,
-      required: true, 
-      min: 0,  
+      required: true,
+      min: 0,
     },
     subject: {
       type: String,
-      enum: ["Science", "management", "commerce", "arts"],  
-      required: true,  
+      enum: ["Science", "management", "commerce", "arts"],
+      required: true,
     },
     topics: {
-      type: [String],  
+      type: [String],
       default: null,
+      required: true,
     },
     chapter: {
-      type: [String],  
+      type: [String],
       default: null,
+      required: true,
+
     },
     difficulty: {
       type: String,
       enum: ["easy", "medium", "hard"],
       default: "medium",
-      required: true,
     },
     level: {
       type: String,
